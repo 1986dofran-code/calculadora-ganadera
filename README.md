@@ -1,0 +1,1 @@
+Este programa ayuda para entender al usuario que cantidad de vacas se necesitas cuantos litros de leche produce cada una, cuales son los gastos y la ganacia.
