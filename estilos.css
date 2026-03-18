@@ -1,0 +1,148 @@
+body {
+    font-family: Arial;
+    margin: 0;
+
+    background: url('https://images.unsplash.com/photo-1500595046743-cd271d694d30') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* CAPA TRANSPARENTE PARA QUE SE LEA EL CONTENIDO */
+main {
+    background: rgba(255, 255, 255, 0.9);
+    max-width: 1000px;
+    margin: auto;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* TITULO */
+.titulo {
+    text-align: center;
+    font-size: 40px;
+    color: white;
+}
+
+/* HEADER */
+header {
+    background: linear-gradient(90deg, #2e7d32, #66bb6a);
+    padding: 20px;
+}
+
+/* NAV */
+nav {
+    background-color: #1b5e20;
+    text-align: center;
+    padding: 10px;
+}
+
+nav a {
+    color: white;
+    margin: 10px;
+    text-decoration: none;
+}
+
+/* MAIN */
+main {
+    max-width: 900px;
+    margin: auto;
+}
+
+/* SECCIONES */
+section {
+    background: white;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* BOTONES OPCIONES */
+.botones {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.boton-opcion {
+    background: #2e7d32;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    margin: 10px;
+    width: 150px;
+    cursor: pointer;
+}
+
+/* INPUTS */
+input {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    width: 80%;
+    max-width: 300px;
+}
+
+/* BOTONES */
+button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    width: 200px;
+    background: #66bb6a;
+    border: none;
+    color: white;
+    border-radius: 5px;
+}
+
+/* RESULTADOS */
+#resultado, #respuesta {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* IMAGEN */
+img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* FOOTER */
+footer {
+    background: #2e7d32;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .botones {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+.boton-opcion {
+    background: linear-gradient(45deg, #2e7d32, #66bb6a);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    width: 160px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.boton-opcion:hover {
+    transform: scale(1.05);
+    background: #1b5e20;
+}
+select {
+    display: block;
+    margin: 10px auto;
+    padding: 12px;
+    width: 80%;
+    max-width: 300px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}

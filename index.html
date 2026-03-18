@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Ganadera</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+
+<header>
+    <h1 class="titulo">Calculadora Ganadera</h1>
+</header>
+
+<nav>
+    <a href="#info">Información</a>
+    <a href="#calculadora">Calculadora</a>
+    <a href="#contacto">Contacto</a>
+</nav>
+
+<main>
+
+<!-- INFORMACIÓN -->
+<section id="info">
+    <h2>Información</h2>
+    <p>Esta aplicación permite calcular producción y control básico del ganado.</p>
+
+    <img src="https://cdn.pixabay.com/photo/2017/01/20/00/30/cow-1995056_960_720.jpg">
+</section>
+
+<!-- CALCULADORA -->
+<section>
+
+    <h2>Opciones de Producción</h2>
+
+    <!-- SELECT ANIMAL -->
+    <label>Selecciona el animal:</label>
+    <select id="animal">
+        <option value="">-- Elegir --</option>
+        <option value="Vaca">🐄 Vaca</option>
+        <option value="Cerdo">🐖 Cerdo</option>
+        <option value="Pollo">🐔 Pollo</option>
+    </select>
+    <select id="animal" onchange="actualizarProduccion()">
+
+    <!-- SELECT PRODUCCIÓN -->
+    <label>Tipo de producción:</label>
+<input type="text" id="produccion" readonly placeholder="Se llenará automáticamente">
+    <!-- INPUT TOTAL -->
+    <label>Cantidad producida por día:</label>
+    <input type="number" id="cantidad" placeholder="Ej: 50">
+
+    <button onclick="mostrarDatos()">Mostrar Información</button>
+
+    <p id="respuesta"></p>
+
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+    <h2>Contacto</h2>
+
+    <form onsubmit="mostrarDatos(event)">
+        <label>Nombre:</label>
+        <input type="text" id="nombre" required>
+
+        <label>Correo:</label>
+        <input type="email" id="correo" required>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <p id="mensaje"></p>
+</section>
+
+</main>
+
+<footer>
+    <p>Proyecto Calculadora Ganadera - 2026</p>
+</footer>
+
+<script src="js/script.js"></script>
+<script>
+document.getElementById("animal").addEventListener("change", function() {
+
+    let animal = this.value;
+    let produccion = document.getElementById("produccion");
+
+    if (animal === "Vaca") {
+        produccion.value = "Leche 🥛";
+    } else if (animal === "Cerdo") {
+        produccion.value = "Carne 🍖";
+    } else if (animal === "Pollo") {
+        produccion.value = "Huevos 🥚";
+    } else {
+        produccion.value = "";
+    }
+
+});
+</script>
+</body>
+</html>
