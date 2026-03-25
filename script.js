@@ -9,6 +9,7 @@ const btnProducto = document.getElementById("btnProducto");
 const btnPrecio = document.getElementById("btnPrecio");
 const btnCalcular = document.getElementById("btnCalcular");
 const btnCopiarPrecio = document.getElementById("btnCopiarPrecio");
+const btnLogin = document.getElementById("btnLogin");
 
 function tipoProduccion(animal) {
     if (animal === "Vaca") return "Leche 🥛";
@@ -56,6 +57,60 @@ btnCopiarPrecio.addEventListener("click", async () => {
         respuestaEl.textContent = `Precio copiado: ${precioEl.value}`;
     } catch {
         alert("No se pudo copiar al portapapeles.");
+    }
+});
+
+const loginModal = document.getElementById("loginModal");
+const loginUsuario = document.getElementById("loginUsuario");
+const loginContrasena = document.getElementById("loginContrasena");
+const loginMensaje = document.getElementById("loginMensaje");
+const btnEnviarLogin = document.getElementById("btnEnviarLogin");
+const btnCerrarLogin = document.getElementById("btnCerrarLogin");
+
+const abrirModalLogin = () => {
+    loginModal.style.display = "flex";
+    loginModal.setAttribute("aria-hidden", "false");
+    loginMensaje.textContent = "";
+    loginUsuario.value = "";
+    loginContrasena.value = "";
+    loginUsuario.focus();
+};
+
+const cerrarModalLogin = () => {
+    loginModal.style.display = "none";
+    loginModal.setAttribute("aria-hidden", "true");
+    loginMensaje.textContent = "";
+};
+
+btnLogin.addEventListener("click", abrirModalLogin);
+btnCerrarLogin.addEventListener("click", cerrarModalLogin);
+
+loginModal.addEventListener("click", (e) => {
+    if (e.target === loginModal) cerrarModalLogin();
+});
+
+btnEnviarLogin.addEventListener("click", () => {
+    const usuario = loginUsuario.value.trim();
+    const contrasena = loginContrasena.value.trim();
+
+    if (!usuario) {
+        loginMensaje.textContent = "Ingresa un usuario.";
+        loginUsuario.focus();
+        return;
+    }
+    if (!contrasena) {
+        loginMensaje.textContent = "Ingresa una contraseña.";
+        loginContrasena.focus();
+        return;
+    }
+
+    if (usuario === "admin" && contrasena === "1234") {
+        loginMensaje.style.color = "#1b5e20";
+        loginMensaje.textContent = `Bienvenido ${usuario}, has iniciado sesión correctamente.`;
+        setTimeout(cerrarModalLogin, 800);
+    } else {
+        loginMensaje.style.color = "#d32f2f";
+        loginMensaje.textContent = "Usuario o contraseña incorrectos.";
     }
 });
 
