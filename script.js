@@ -10,6 +10,31 @@ const btnPrecio = document.getElementById("btnPrecio");
 const btnCalcular = document.getElementById("btnCalcular");
 const btnCopiarPrecio = document.getElementById("btnCopiarPrecio");
 const btnLogin = document.getElementById("btnLogin");
+const btnGlosario = document.getElementById("btnGlosario");
+const glosarioModal = document.getElementById("glosarioModal");
+const btnCerrarGlosario = document.getElementById("btnCerrarGlosario");
+const buscadorGlosario = document.getElementById("buscadorGlosario");
+const formContacto = document.getElementById("formContacto");
+const mensajeContacto = document.getElementById("mensaje");
+const botonesVista = document.querySelectorAll("[data-target]");
+const vistas = document.querySelectorAll("[data-view]");
+
+const mostrarVista = (vistaId, desplazar = false) => {
+    vistas.forEach((vista) => {
+        vista.hidden = vista.dataset.view !== vistaId;
+    });
+
+    botonesVista.forEach((boton) => {
+        const activo = boton.dataset.target === vistaId;
+        boton.classList.toggle("is-active", activo);
+        boton.setAttribute("aria-pressed", String(activo));
+    });
+
+    const vistaActiva = desplazar ? document.querySelector(`[data-view="${vistaId}"]`) : null;
+    if (vistaActiva) {
+        vistaActiva.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+};
 
 function tipoProduccion(animal) {
     if (animal === "Vaca") return "Leche 🥛";
@@ -68,6 +93,10 @@ const btnEnviarLogin = document.getElementById("btnEnviarLogin");
 const btnCerrarLogin = document.getElementById("btnCerrarLogin");
 
 const abrirModalLogin = () => {
+    if (glosarioModal && glosarioModal.getAttribute("aria-hidden") === "false") {
+        cerrarGlosario();
+    }
+
     loginModal.style.display = "flex";
     loginModal.setAttribute("aria-hidden", "false");
     loginMensaje.textContent = "";
@@ -107,12 +136,94 @@ btnEnviarLogin.addEventListener("click", () => {
     if (usuario === "admin" && contrasena === "1234") {
         loginMensaje.style.color = "#1b5e20";
         loginMensaje.textContent = `Bienvenido ${usuario}, has iniciado sesión correctamente.`;
-        setTimeout(cerrarModalLogin, 800);
+        setTimeout(() => {
+            cerrarModalLogin();
+            mostrarVista("calculadora");
+        }, 800);
     } else {
         loginMensaje.style.color = "#d32f2f";
         loginMensaje.textContent = "Usuario o contraseña incorrectos.";
     }
 });
+
+const abrirGlosario = () => {
+    if (!glosarioModal) return;
+
+    if (loginModal && loginModal.getAttribute("aria-hidden") === "false") {
+        cerrarModalLogin();
+    }
+
+    glosarioModal.style.display = "flex";
+    glosarioModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-abierto");
+    btnGlosario.textContent = "Cerrar glosario";
+    btnGlosario.setAttribute("aria-expanded", "true");
+
+    if (buscadorGlosario) {
+        buscadorGlosario.value = "";
+        filtrarGlosario();
+        buscadorGlosario.focus();
+    }
+};
+
+const cerrarGlosario = () => {
+    if (!glosarioModal) return;
+
+    glosarioModal.style.display = "none";
+    glosarioModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-abierto");
+    btnGlosario.textContent = "Glosario";
+    btnGlosario.setAttribute("aria-expanded", "false");
+
+    if (buscadorGlosario) {
+        buscadorGlosario.value = "";
+        filtrarGlosario();
+    }
+};
+
+if (btnGlosario && glosarioModal) {
+    btnGlosario.addEventListener("click", () => {
+        const estaAbierto = glosarioModal.getAttribute("aria-hidden") === "false";
+        if (estaAbierto) {
+            cerrarGlosario();
+        } else {
+            abrirGlosario();
+        }
+    });
+}
+
+if (btnCerrarGlosario) {
+    btnCerrarGlosario.addEventListener("click", cerrarGlosario);
+}
+
+if (glosarioModal) {
+    glosarioModal.addEventListener("click", (e) => {
+        if (e.target === glosarioModal) cerrarGlosario();
+    });
+}
+
+document.addEventListener("keydown", (e) => {
+    const glosarioAbierto = glosarioModal && glosarioModal.getAttribute("aria-hidden") === "false";
+    if (e.key === "Escape" && glosarioAbierto) {
+        cerrarGlosario();
+    }
+});
+
+if (buscadorGlosario) {
+    buscadorGlosario.addEventListener("input", filtrarGlosario);
+}
+
+if (formContacto) {
+    formContacto.addEventListener("submit", mostrarDatos);
+}
+
+botonesVista.forEach((boton) => {
+    boton.addEventListener("click", () => {
+        mostrarVista(boton.dataset.target, true);
+    });
+});
+
+mostrarVista("calculadora");
 
 btnCalcular.addEventListener("click", () => {
     const cantidad = Number(cantidadEl.value);
@@ -127,3 +238,27 @@ btnCalcular.addEventListener("click", () => {
     respuestaEl.textContent =
         `Animal: ${animalEl.value} | Producto: ${produccionEl.value} | Cantidad: ${cantidad} | Precio/u: ${precio.toFixed(2)} | Total: ${total.toFixed(2)}`;
 });
+
+function filtrarGlosario() {
+    const termino = buscadorGlosario ? buscadorGlosario.value.toLowerCase().trim() : "";
+    const items = document.querySelectorAll("#listaGlosario li");
+
+    items.forEach(item => {
+        const texto = item.textContent.toLowerCase();
+        item.style.display = texto.includes(termino) ? "" : "none";
+    });
+}
+
+function mostrarDatos(event) {
+    event.preventDefault();
+
+    const nombre = document.getElementById("nombre").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
+    const correo = document.getElementById("correo").value.trim();
+
+    mensajeContacto.textContent = `Gracias ${nombre}. Recibimos tu contacto: ${telefono} / ${correo}. Te responderemos pronto.`;
+    mensajeContacto.style.color = "#1b5e20";
+
+    event.target.reset();
+    document.getElementById("nombre").focus();
+}
